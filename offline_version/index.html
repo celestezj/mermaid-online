@@ -175,6 +175,7 @@
     E --> F[用户浏览]
     F --> G[结束]</textarea>
             <button class="render-btn" id="renderBtn">立即渲染</button>
+            <button class="render-btn" id="shareBtn" style="right: 95px; background-color: #2196F3;">复制分享链接</button>
         </div>
         
         <div class="render-container">
@@ -254,11 +255,33 @@
             }
         }
         
+        // 从 URL 参数 ?code= 读取初始代码（mermaid 源码已 URL 编码）
+        const urlParams = new URLSearchParams(location.search);
+        const urlCode = urlParams.get('code');
+        if (urlCode) {
+            editor.value = urlCode;
+        }
+
         // 初始渲染
         renderMermaid();
-        
+
         // 立即渲染按钮
         renderBtn.addEventListener('click', renderMermaid);
+
+        // 复制分享链接（把当前 mermaid 源码编码进 ?code= 参数）
+        const shareBtn = document.getElementById('shareBtn');
+        shareBtn.addEventListener('click', () => {
+            const url = location.href.split('?')[0] + '?code=' + encodeURIComponent(editor.value);
+            const done = () => {
+                shareBtn.textContent = '已复制';
+                setTimeout(() => { shareBtn.textContent = '复制分享链接'; }, 2000);
+            };
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(url).then(done);
+            } else {
+                prompt('复制此链接（mermaid 源码已编码在 ?code= 中）：', url);
+            }
+        });
         
         // 编辑器内容变化后延迟渲染
         let renderTimeout;

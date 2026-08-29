@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p offline_version)",
+      "Bash(curl -sL -o offline_version/mermaid.min.js https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js)",
+      "Bash(node -e \"const m=require\\('./offline_version/mermaid.min.js'\\); console.log\\('loaded OK, mermaid version:', m.default ? \\(m.default.version || 'n/a'\\) : \\(m.version || 'n/a'\\)\\)\")",
+      "Bash(node --check offline_version/mermaid.min.js)",
+      "Bash(node *)"
+    ]
+  }
+}

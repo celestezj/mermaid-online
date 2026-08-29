@@ -14,10 +14,39 @@
   - 全屏展示功能
 - **响应式设计**: 适配不同屏幕尺寸
 - **无依赖部署**: 只需一个HTML文件，引用CDN上的Mermaid库
+- **URL参数共享**: 通过`?code=`参数自动填充图表源码，分享一条链接即可打开图表
+- **一键复制分享链接**: 点击编辑器右上角"复制分享链接"按钮，生成当前图表的分享URL
+- **离线版本**: 附带`offline_version/`目录，内置Mermaid库，完全离线可用
 
 ## 在线演示
 
-访问[Mermaid在线渲染工具](https://mermaid.988589.xyz/)体验该工具。
+访问[Mermaid在线渲染工具](https://mermaid-online.dymichina17.workers.dev/)体验该工具。
+
+## 通过链接共享图表
+
+工具支持URL参数`?code=`自动填入图表源码，方便分享，也可在其他网页中通过链接一键打开。
+
+### 生成分享链接
+
+1. 在编辑器中输入Mermaid源码
+2. 点击编辑器右上角的**复制分享链接**按钮
+3. 链接已复制到剪贴板，对方打开该链接即可看到图表
+
+### 在其他网页中引用
+
+在网页中添加一个链接，点击后在新标签页打开工具并自动渲染图表：
+
+```html
+<a href="https://mermaid-online.dymichina17.workers.dev/?code=你的源码URL编码" target="_blank">查看图表</a>
+```
+
+其中`?code=`的值是Mermaid源码经过`encodeURIComponent()`编码后的字符串，例如：
+
+```
+https://mermaid-online.dymichina17.workers.dev/?code=graph%20TD%0A%20%20A%5B开始%5D%20--%3E%20B%5B结束%5D
+```
+
+该功能是纯前端实现，部署到任何静态托管平台（Cloudflare Pages / Workers 等）均可使用。
 
 ## 本地使用
 
@@ -87,6 +116,14 @@ git clone https://github.com/yourusername/mermaid-online-editor.git
 
 - **通过GitHub部署**: 只需将更改推送到GitHub仓库，Cloudflare会自动检测并重新部署
 - **直接上传部署**: 在Cloudflare Pages控制台中重新上传文件进行更新
+
+## 离线版本
+
+`offline_version/`目录提供一个完全离线的版本，内置了Mermaid库文件，无需网络即可使用。
+
+- 直接双击`offline_version/index.html`即可在浏览器中使用
+- 部署时上传整个`offline_version/`目录
+- 功能与在线版一致，同样支持`?code=`参数和分享链接
 
 ## 技术栈
 
